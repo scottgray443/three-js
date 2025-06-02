@@ -7,7 +7,7 @@ import {
   Program,
   Mesh,
   Flowmap,
-} from ".cg-shader-distortion-img-hover-effect 4/src/index.js";
+} from "./cg-shader-distortion-img-hover-effect 4/src/index.js";
 
 // Initialize smooth scrolling using Lenis
 const lenis = new Lenis();
@@ -24,8 +24,8 @@ async function loadShader(url) {
 }
 
 // Load vertex and fragment shaders
-const vertexShader = await loadShader(".cg-shader-distortion-img-hover-effect 4/shaders/vertexShader.glsl");
-const fragmentShader = await loadShader(".cg-shader-distortion-img-hover-effect 4/shaders/fragmentShader.glsl");
+const vertexShader = await loadShader("./cg-shader-distortion-img-hover-effect 4/shaders/vertexShader.glsl");
+const fragmentShader = await loadShader("./cg-shader-distortion-img-hover-effect 4/shaders/fragmentShader.glsl");
 
 // Define image resolution
 const _size = [2048, 1638];
