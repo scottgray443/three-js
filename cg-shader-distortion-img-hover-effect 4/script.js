@@ -28,9 +28,10 @@ const vertexShader = `
 attribute vec2 uv;
 attribute vec2 position;
 varying vec2 vUv;
+uniform float uScale;
 void main() {
   vUv = uv;
-  gl_Position = vec4(position, 0, 1);
+  gl_Position = vec4(position * uScale, 0, 1);
 }
 `;
 
@@ -123,6 +124,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
     fragment: fragmentShader,
     uniforms: {
       uTime: { value: 0 },
+      uScale: { value: 1.0 }, // <--- ADD THIS LINE
       tWater: { value: texture },
       res: {
         value: new Vec4(window.innerWidth, window.innerHeight, 1, 1),
@@ -205,6 +207,37 @@ document.querySelectorAll(".img").forEach((imgElement) => {
     renderer.render({ scene: mesh });
   }
 
-  // Start the animation loop
+let targetScale = 1.0;
+let scale = 1.0;
+const SCALE_HOVER = 1.06;
+const SCALE_NORMAL = 1.0;
+
+function update(t) {
   requestAnimationFrame(update);
-});
+
+  if (!velocity.needsUpdate) {
+    mouse.set(-1);
+    velocity.set(0);
+  }
+  velocity.needsUpdate = false;
+
+  flowmap.mouse.copy(mouse);
+  flowmap.velocity.lerp(velocity, velocity.len ? 0.15 : 0.1);
+  flowmap.update();
+
+  // --- SCALE LOGIC START ---
+  if (mouse.x >= 0 && mouse.y >= 0 && mouse.x <= 1 && mouse.y <= 1) {
+    targetScale = SCALE_HOVER;
+  } else {
+    targetScale = SCALE_NORMAL;
+  }
+  scale += (targetScale - scale) * 0.1; // Smooth transition
+  program.uniforms.uScale.value = scale;
+  // --- SCALE LOGIC END ---
+
+  program.uniforms.uTime.value = t * 0.01;
+  renderer.render({ scene: mesh });
+}
+
+// Start the animation loop
+requestAnimationFrame(update);
