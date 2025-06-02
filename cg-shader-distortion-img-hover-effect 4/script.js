@@ -24,8 +24,8 @@ async function loadShader(url) {
 }
 
 // Load vertex and fragment shaders
-const vertexShader = await loadShader("./shaders/vertexShader.glsl");
-const fragmentShader = await loadShader("./shaders/fragmentShader.glsl");
+const vertexShader = await loadShader "./shaders/vertexShader.glsl";
+const fragmentShader = await loadShader "./shaders/fragmentShader.glsl";
 
 // Define image resolution
 const _size = [2048, 1638];
