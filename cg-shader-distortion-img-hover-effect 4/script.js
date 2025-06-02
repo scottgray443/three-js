@@ -7,7 +7,7 @@ import {
   Program,
   Mesh,
   Flowmap,
-} from "./cg-shader-distortion-img-hover-effect 4/src/index.js";
+} from "./src/index.js";
 
 // Initialize smooth scrolling using Lenis
 const lenis = new Lenis();
